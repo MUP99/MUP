@@ -13,6 +13,21 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Show current directory
+      run: pwd
+
+    - name: List files in root
+      run: dir
+
+    - name: List files in root (Linux)
+      run: ls -la
+
+    - name: List files in possible subfolder
+      run: dir ./MUP
+
+    - name: List files in src folder if exists
+      run: dir ./src || echo "src folder not found"
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
@@ -25,13 +40,6 @@ jobs:
         pip install pyinstaller
 
     - name: Build executable
-      working-directory: src
       run: |
+        cd src
         pyinstaller --onefile --noconsole --name "COD_AimAssist" --icon "assets/icon.ico" --add-data "assets/icon.ico;assets" main.py
-
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: COD-AimAssist-EXE
-        path: src/dist/COD_AimAssist.exe
-
