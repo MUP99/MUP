@@ -18,13 +18,12 @@ jobs:
       with:
         python-version: '3.11'
 
-    - name: List directories (PowerShell)
+    - name: Debug directory structure
       shell: pwsh
       run: |
-        Write-Host "Listing directories:"
-        Get-ChildItem -Directory
-        Write-Host "Current location:"
-        Get-Location
+        Write-Host "Current directory: $pwd"
+        Write-Host "Directory contents:"
+        Get-ChildItem -Recurse | Format-Table Name, FullName
 
     - name: Install dependencies
       run: |
@@ -33,9 +32,21 @@ jobs:
         pip install pyinstaller
 
     - name: Build executable
+      shell: pwsh
       run: |
-        cd src
+        # التأكد من وجود مجلد src
+        if (-not (Test-Path -Path "src")) {
+            throw "src directory not found!"
+        }
+        
+        # الانتقال إلى مجلد src
+        Set-Location -Path "src"
+        
+        # تنفيذ أمر البناء
         pyinstaller --onefile --noconsole --name "COD_AimAssist" --icon "assets/icon.ico" --add-data "assets/icon.ico;assets" main.py
+        
+        # العودة إلى الدليل الرئيسي
+        Set-Location -Path ".."
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
