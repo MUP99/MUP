@@ -16,11 +16,11 @@ jobs:
     - name: Show current directory
       run: pwd
 
-    - name: List files in root (Windows)
+    - name: List files in current directory
       run: dir
 
-    - name: List files in src folder if exists
-      run: dir src || echo "src folder not found"
+    - name: List folders inside current directory
+      run: dir /ad
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -35,5 +35,5 @@ jobs:
 
     - name: Build executable
       run: |
-        cd src
+        cd MUP/src
         pyinstaller --onefile --noconsole --name "COD_AimAssist" --icon "assets/icon.ico" --add-data "assets/icon.ico;assets" main.py
