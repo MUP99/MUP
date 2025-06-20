@@ -16,17 +16,11 @@ jobs:
     - name: Show current directory
       run: pwd
 
-    - name: List files in root
+    - name: List files in root (Windows)
       run: dir
 
-    - name: List files in root (Linux)
-      run: ls -la
-
-    - name: List files in possible subfolder
-      run: dir ./MUP
-
     - name: List files in src folder if exists
-      run: dir ./src || echo "src folder not found"
+      run: dir src || echo "src folder not found"
 
     - name: Set up Python
       uses: actions/setup-python@v4
