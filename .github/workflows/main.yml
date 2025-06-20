@@ -13,19 +13,18 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Show current directory
-      run: pwd
-
-    - name: List files in current directory
-      run: dir
-
-    - name: List folders inside current directory
-      run: dir /ad
-
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
+
+    - name: List directories (PowerShell)
+      shell: pwsh
+      run: |
+        Write-Host "Listing directories:"
+        Get-ChildItem -Directory
+        Write-Host "Current location:"
+        Get-Location
 
     - name: Install dependencies
       run: |
@@ -35,5 +34,11 @@ jobs:
 
     - name: Build executable
       run: |
-        cd MUP/src
+        cd src
         pyinstaller --onefile --noconsole --name "COD_AimAssist" --icon "assets/icon.ico" --add-data "assets/icon.ico;assets" main.py
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: COD-AimAssist-EXE
+        path: src/dist/COD_AimAssist.exe
