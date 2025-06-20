@@ -26,11 +26,10 @@ jobs:
 
     - name: Build executable
       run: |
-        cd src
-        pyinstaller --onefile --noconsole --name "COD_AimAssist" --icon "assets/icon.ico" --add-data "assets/icon.ico;assets" main.py
+        pyinstaller --onefile --noconsole --name "COD_AimAssist" --icon "src/assets/icon.ico" --add-data "src/assets/icon.ico;assets" src/main.py
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: COD-AimAssist-EXE
-        path: src/dist/COD_AimAssist.exe
+        path: dist/COD_AimAssist.exe
